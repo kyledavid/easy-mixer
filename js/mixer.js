@@ -1,76 +1,78 @@
 $(document).ready(function() {
 
-	var controlButtons = document.querySelector('.mix-controls').querySelectorAll('button');
-	
-	controlButtons.forEach(function(button) {
-		button.addEventListener('mouseup', filterItems);
-	});
+    var controlButtons = document.querySelector('.mix-controls').querySelectorAll('button');
+    
+    controlButtons.forEach(function(button) {
+        button.addEventListener('mouseup', filterItems);
+    });
 
-	sortContainerItems();
+    sortContainerItems();
 
-	/* Sort all items in a .mix-container alphabetically by taxonomy data */
+    /* Sort all items in a .mix-container alphabetically by taxonomy data */
 
-	function sortContainerItems() {
-		var mixItems = document.querySelectorAll('.mix');
-		var mixArray = [...mixItems];
+    function sortContainerItems() {
+        var mixItems = document.querySelectorAll('.mix');
+        var mixArray = [...mixItems];
 
 
-		mixArray = (mixArray).sort(function(firstBox, secondBox) {
-			var firstTax = firstBox.dataset.tax;
-			var secondTax = secondBox.dataset.tax;
+        mixArray = (mixArray).sort(function(firstBox, secondBox) {
+            var firstTax = firstBox.dataset.tax;
+            var secondTax = secondBox.dataset.tax;
 
-			return firstTax.charAt(0) > secondTax.charAt(0);
-		});
+            return firstTax.charAt(0) > secondTax.charAt(0);
+        });
 
-		mixArray.forEach(function(item) {
-			document.querySelector('.mix-container').appendChild(item);
-		});
-	}
+        mixArray.forEach(function(item) {
+            document.querySelector('.mix-container').appendChild(item);
+        });
+    }
 
-	/* determine how to filter mix items */
+    /* determine how to filter mix items */
 
-	function filterItems() {
+    function filterItems() {
 
-		var filter = this.dataset.filter;
+        var filter = this.dataset.filter;
+        var filterString = '[data-tax="' + filter + '"]';
 
-		if (filter === 'all') {
-			showAllItems();
-		} else if (filter === 'none') {
-			applyFilter('.mix');
-		} else {
-			applyFilter(filter);
-		}	
+        if (filter === 'all') {
+            showAllItems();
+        } else if (filter === 'none') {
+            applyFilter('.mix');
+        } else {
+            applyFilter(filterString, filter);
+        }   
 
-	}
+    }
 
-	/* Hide all items with the target filter data */
+    /* Hide all items with the target filter data */
 
-	function applyFilter(filter) {
+    function applyFilter(filterString, rawFilter) {
 
-		var mixItems = document.querySelectorAll('.mix');
-		var filteredItems = $(mixItems).filter(filter);
+        var mixItems = document.querySelectorAll('.mix');
+        var filteredItems = $(mixItems).filter(filterString);
 
-		var otherItems = $(mixItems).filter(function(i, item) {
-			console.log(item.classList.contains(filter.substr(1)));
-			return !item.classList.contains(filter.substr(1));
-		});
+        console.log(rawFilter);
 
-		$(filteredItems).each(function(i, item) {
-			$(item).fadeOut();
-		});
+        var otherItems = $(mixItems).filter(function(i, item) {
+            return item.dataset.tax != rawFilter;
+        });
 
-		$(otherItems).each(function(i, item) {
-			$(item).fadeIn();
-		})
-	}
+        $(filteredItems).each(function(i, item) {
+            $(item).fadeOut();
+        });
 
-	function showAllItems() {
-		
-		var mixItems = document.querySelectorAll('.mix');
+        $(otherItems).each(function(i, item) {
+            $(item).fadeIn();
+        });
+    }
 
-		$(mixItems).each(function(i, item) {
-			$(item).fadeIn();
-		});
-	}
-	
+    function showAllItems() {
+        
+        var mixItems = document.querySelectorAll('.mix');
+
+        $(mixItems).each(function(i, item) {
+            $(item).fadeIn();
+        });
+    }
+    
 });
