@@ -1,0 +1,11 @@
+.box {
+	background-color: blue;
+	height: 300px;
+	width: 300px;
+	margin: 20px 20px 0 20px;
+}
+
+.mix-container {
+	display: flex;
+	flex-flow: row wrap;
+}
