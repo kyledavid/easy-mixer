@@ -1,8 +1,19 @@
 .box {
-	background-color: blue;
 	height: 300px;
 	width: 300px;
 	margin: 20px 20px 0 20px;
+}
+
+.blue-box {
+	background-color: blue;
+}
+
+.red-box {
+	background-color: red;
+}
+
+.green-box {
+	background-color: green;
 }
 
 .mix-container {
